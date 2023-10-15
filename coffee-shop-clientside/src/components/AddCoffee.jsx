@@ -25,8 +25,11 @@ const AddCoffee = () => {
             body: JSON.stringify(newCoffee),
         })
             .then((res) => res.json())
-            .then((result) => {
-                console.log(result);
+            .then(data => {
+                console.log(data);
+                if (data.insertedId){
+                    alert('Coffee added successfully')
+                }
             });
 
         console.log(newCoffee);

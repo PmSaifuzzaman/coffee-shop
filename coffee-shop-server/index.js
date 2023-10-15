@@ -31,10 +31,15 @@ async function run() {
     const database = client.db("insertCoffeeDB");
     const coffeeCollection = database.collection("CoffeeCollection");
 
-    app.post('/coffee', (req, res) => {
+    app.get('/coffee', async(req, res) => {
+      const result = await coffeeCollection.find().toArray();
+      res.send(result);
+    })
+
+    app.post('/coffee', async(req, res) => {
       const newCoffee = req.body;
       console.log(newCoffee)
-      const result = coffeeCollection.insertOne(newCoffee);
+      const result = await coffeeCollection.insertOne(newCoffee);
       res.send(result);
     })
 
