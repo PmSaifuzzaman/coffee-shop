@@ -17,6 +17,18 @@ const AddCoffee = () => {
 
         const newCoffee = { name, quantity, supplier, taste, category, details, photo }
 
+        fetch("http://localhost:5000/coffee", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(newCoffee),
+        })
+            .then((res) => res.json())
+            .then((result) => {
+                console.log(result);
+            });
+
         console.log(newCoffee);
 
     }
