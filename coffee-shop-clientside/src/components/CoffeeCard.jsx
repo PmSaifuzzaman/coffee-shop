@@ -1,8 +1,43 @@
+import { data } from 'autoprefixer';
 import PropTypes from 'prop-types';
+import Swal from 'sweetalert2'
 
 const CoffeeCard = ({ coffee }) => {
 
-    const { name, quantity, supplier, category, photo } = coffee;
+    const { _id, name, quantity, supplier, category, photo } = coffee;
+
+    const handleDelete = (_id) => {
+        console.log(_id)
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                fetch(`http://localhost:5000/coffee/${_id}`, {
+                    method: 'DELETE'
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                    })
+                    if(data.deleteCount > 0){
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                          )
+                    }
+
+            }
+        })
+    }
 
     return (
         <div className="card card-side bg-base-100 shadow-xl p-8">
@@ -17,7 +52,7 @@ const CoffeeCard = ({ coffee }) => {
                 <div className="btn-group btn-group-vertical gap-5">
                     <button className="btn ">Details</button>
                     <button className="btn">Update</button>
-                    <button className="btn">X</button>
+                    <button onClick={() => handleDelete(_id)} className="btn">X</button>
                 </div>
             </div>
         </div>
